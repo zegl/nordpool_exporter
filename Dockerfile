@@ -12,6 +12,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build,id=go-build \
     CGO_ENABLED=0 go build -tags netgo -o /bin/nordpool_exporter
 
 FROM debian:bullseye as runtime
+RUN apt-get update && apt-get install ca-certificates -y
 COPY --from=builder /bin/nordpool_exporter /bin/nordpool_exporter
 EXPOSE      9367
 ENTRYPOINT  [ "/bin/nordpool_exporter" ]
